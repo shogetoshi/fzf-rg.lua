@@ -7,13 +7,14 @@ require("fzf").default_options = {
     end
 }
 
-local source = 'fd -HI --ignore-file ~/.ignore -c always -t f'
+local source = 'rg -uuu --ignore-file ~/.ignore --color always -n ^'
 local options = {
     "--ansi",
     "--multi",
     "--reverse",
-    "--preview 'bat --plain --number --color always {}'",
-    "--preview-window down:70%",
+    "--delimiter", ":",
+    "--preview 'bat --plain --number --color always --highlight-line={2} {1}'",
+    "--preview-window '+{2}-5:down:70%'",
     "--bind 'alt-h:reload:fd -HI -c always -t f'",
 }
 
@@ -21,8 +22,11 @@ M.run = function()
     coroutine.wrap(function()
         local result = fzf.fzf(source, table.concat(options, " "))
         if result then
-            for _, file in ipairs(result) do
-                vim.cmd("edit " .. file)
+            for _, line in ipairs(result) do
+                local file, lnum = line:match("^([^:]+):(%d+)")
+                if file and lnum then
+                    vim.cmd("edit +" .. lnum .. " " .. file)
+                end
             end
         end
     end)()

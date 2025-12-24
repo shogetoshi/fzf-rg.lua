@@ -23,6 +23,7 @@ local options = {
     "--multi",
     "--reverse",
     "--delimiter", ":",
+    "--nth", "3..",
     "--preview 'bat --plain --number --color always --highlight-line={2} {1}'",
     "--preview-window '+{2}-5:down:70%'",
     "--bind 'alt-h:reload:fd -HI -c always -t f " .. search_path .. "'",

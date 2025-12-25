@@ -5,7 +5,7 @@ end
 vim.g.loaded_fzf_rg = true
 
 -- キーマッピング設定
-vim.keymap.set('n', '<Plug>fzf-rg', function()
+vim.keymap.set('n', '<Plug>fzf-rg-keymap', function()
   require('fzf-rg').run()
 end, { silent = true })
 
